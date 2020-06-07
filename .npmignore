@@ -1,6 +1,5 @@
 .idea/
 src/**/*.js.map
 src/**/*.ts
-src/**/*.d.ts
 src/**/*.d.ts.map
 tsconfig.json
