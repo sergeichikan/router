@@ -36,11 +36,21 @@ export class Router<
             : listenerMap.get(join(str));
     }
 
-    public use(root: string, router: Router<Listener>): void {
-        for (const [ method, listenerMap ] of router.map.entries()) {
+    public * entries(): Generator<[string, string, Listener], void, unknown> {
+        for (const [ method, listenerMap ] of this.map.entries()) {
             for (const [ path, listener ] of listenerMap.entries()) {
-                this.set(method, join(root, path), listener);
+                yield [
+                    method,
+                    path,
+                    listener,
+                ];
             }
+        }
+    }
+
+    public use(root: string, router: Router<Listener>): void {
+        for (const  [ method, path, listener ] of router.entries()) {
+            this.set(method, join(root, path), listener);
         }
     }
 }
