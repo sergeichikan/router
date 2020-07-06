@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Router = void 0;
 const join_1 = require("./join");
 const full_1 = require("./full");
 class Router {
@@ -28,11 +29,20 @@ class Router {
             ? undefined
             : listenerMap.get(join_1.join(str));
     }
-    use(root, router) {
-        for (const [method, listenerMap] of router.map.entries()) {
+    *entries() {
+        for (const [method, listenerMap] of this.map.entries()) {
             for (const [path, listener] of listenerMap.entries()) {
-                this.set(method, join_1.join(root, path), listener);
+                yield [
+                    method,
+                    path,
+                    listener,
+                ];
             }
+        }
+    }
+    use(root, router) {
+        for (const [method, path, listener] of router.entries()) {
+            this.set(method, join_1.join(root, path), listener);
         }
     }
 }

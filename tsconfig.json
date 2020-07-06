@@ -6,6 +6,8 @@
     "declarationMap": false,
     "sourceMap": false,
     "rootDir": "src",
+    "declarationDir": "dec",
+    "outDir": "dist",
 
     "moduleResolution": "Node",
 
