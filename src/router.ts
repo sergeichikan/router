@@ -48,6 +48,25 @@ export class Router<
         }
     }
 
+    public * keys(): Generator<[string, string], void, unknown> {
+        for (const [ method, listenerMap ] of this.map.entries()) {
+            for (const path of listenerMap.keys()) {
+                yield [
+                    method,
+                    path,
+                ];
+            }
+        }
+    }
+
+    public * values(): Generator<Listener, void, unknown> {
+        for (const listenerMap of this.map.values()) {
+            for (const listener of listenerMap.values()) {
+                yield listener;
+            }
+        }
+    }
+
     public use(root: string, router: Router<Listener>): void {
         for (const  [ method, path, listener ] of router.entries()) {
             this.set(method, join(root, path), listener);
